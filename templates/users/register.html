@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="mt-6 flex flex-col items-center justify-center px-6 py-8 mx-auto">
+  <div class="w-full rounded-lg bg-dark max-w-md">
+    <div class="p-6 space-y-4">
+      <h1 class="text-xl text-center font-mono font-semibold text-light">Register Page</h1>
+
+      <form action="" class="space-y-4" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          <div>
+            <label for="username" class="block mb-2 text-sm font-mono text-light">{{field.label}}</label>
+            {{field}}
+          </div>
+        {% endfor %}
+        
+        <div class="text-center">
+          <button type="submit" class="px-5 py-3 font-mono text-center text-black rounded-lg bg-pink">Register</button>
+        </div>
+      </form>
+      <p class="text-sm font-mono text-light">
+        Have an account? <a href="{% url 'login' %}" class="text-sm text-light hover:text-pink">Login here!</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

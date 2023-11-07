@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="mt-6 flex flex-col items-center justify-center px-6 py-8 mx-auto">
+  <div class="w-full rounded-lg bg-dark max-w-md">
+    <div class="p-6 space-y-4">
+      <h1 class="text-xl text-center font-mono font-semibold text-light">Login Page</h1>
+
+      <form action="" class="space-y-4" method="post">
+        {% csrf_token %}
+        <div>
+          <label for="username" class="block mb-2 text-sm font-mono text-light">Your Username</label>
+          <input type="text" name="username" id="username"
+            class="text-dark text-sm rounded-lg block w-full p-2.5 placeholder-gray-400"
+            placeholder="Write your username"
+            required
+          />
+        </div>
+        <div>
+          <label for="password" class="block mb-2 text-sm font-mono text-light">Your Password</label>
+          <input type="password" name="password" id="password"
+            class="text-dark text-sm rounded-lg block w-full p-2.5 placeholder-gray-400"
+            placeholder="Write your password"
+            required
+          />
+        </div>
+        <div class="text-center">
+          <button type="submit" class="px-5 py-3 font-mono text-center text-black rounded-lg bg-pink">Login</button>
+        </div>
+      </form>
+      <p class="text-sm font-mono text-light">
+        Don't have an account? <a href="{% url 'register' %}" class="text-sm text-light hover:text-pink">Register here!</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

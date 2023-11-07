@@ -1,0 +1,130 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+<div class="grid gap-x-8 gap-y-4 p-4 grid-cols-1 xl:grid-cols-3">
+  <div class="mb-4 xl:mx-10">
+    <div class="bg-dark rounded-lg">
+      <h1 class="text-xl font-mono p-2 border-b border-light font-semibold text-light text-center">Meet new people</h1>
+      <ul>
+        {% for user in users %}
+        <li class="flex justify-start ml-6 p-3">
+
+          <div class="mr-6">
+            <img src="{{ user.photo.url }}" alt="{{ user.username }}" class="w-10 h-10 rounded-full" />
+          </div>
+
+          <div class="mr-6">
+            <a href="{% url 'profiles' user.id %}" class="text-lg text-light font-mono text-semibold hover:text-green">
+              {{ user.username }}
+            </a>
+          </div>
+
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="lg:mb-4 2xl:mx-10">
+
+    <div class="mb-4">
+      <div class="bg-dark p-3 rounded-lg">
+        <h1 class="text-xl p-2 text-center font-mono font-semibold text-light">Room Availables</h1>
+      </div>
+    </div>
+
+    {% for room in page_obj %}
+    <div class="my-2">
+      <div class="bg-dark p-2 rounded-lg">
+        <h1 class="text-xl p-2 font-mono text-center font-semibold text-light">{{ room.name }}</h1>
+        <div class="flex justify-center">
+          <a href="{% url 'room' room.id %}" class="p-3 font-mono font-semibold text-black rounded-lg bg-pink">Enter</a>
+          <form action="{% url 'like_room' %}" class="ml-2" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="room_id" value="{{ room.id }}" />
+            {% if user not in room.like.all %}
+            <button type="submit">
+              <img src="{% static 'images/dislike.jpg' %}" alt="" width="40" height="40" />
+            </button>
+            {% else %}
+            <button type="submit">
+              <img src="{% static 'images/like.jpg' %}" alt="" width="40" height="40" />
+            </button>
+            {% endif %}
+          </form>
+        </div>
+
+        <div class="flex justify-center">
+          <p class="text-sm font-mono font-semibold text-light p-2">Host:
+            <a href="{% url 'profiles' room.user.id %}" class="text-sm font-mono font-semibold text-light hover:text-green">{{ room.user }}</a>
+            <span class="font-mono font-semibold text-pink">{{ room.like.all.count }} Likes</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="">
+      <span>
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="text-light hover:text-pink font-mono">&laquo; first</a>
+
+        <a href="?page={{ page_obj.previous_page_number }}" class="text-light hover:text-pink font-mono">Previous</a>
+        {% endif %}
+
+        <span class="text-black text-center mr-2">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="text-light hover:text-pink font-mono mr-2">Next</a>
+
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="text-light hover:text-pink font-mono">Last Page &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+
+  </div>
+
+  <div class="mb-4 xl:mx-10">
+    <div class="bg-dark rounded-lg">
+      <h1 class="text-xl border-b border-light p-2 text-center font-mono font-semibold text-light">Liked Rooms</h1>
+      <ul>
+        {% for like in likes %}
+        <div class="my-2 p-4">
+          <div class="bg-light p-2 rounded-lg">
+            <h1 class="text-xl p-2 text-center font-mono font-semibold text-dark">{{ like.name }}</h1>
+
+            <div class="flex justify-center">
+              <a href="{% url 'room' like.id %}" class="p-3 font-mono font-semibold text-black rounded-lg bg-pink">Enter</a>
+              <form action="{% url 'like_room' %}" class="ml-2" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="room_id" value="{{ like.id }}" />
+                {% if user not in room.like.all %}
+                <button type="submit">
+                  <img src="{% static 'images/dislike.jpg' %}" alt="" width="40" height="40" />
+                </button>
+                {% else %}
+                <button type="submit">
+                  <img src="{% static 'images/like.jpg' %}" alt="" width="40" height="40" />
+                </button>
+                {% endif %}
+              </form>
+            </div>
+    
+            <div class="flex justify-center">
+              <p class="text-sm font-mono font-semibold text-dark p-2">Host:
+                <a href="" class="text-sm font-mono font-semibold text-dark hover:text-green">{{ like.user }}</a>
+                <span class="font-mono font-semibold text-pink">{{ like.room.all.count }} Likes</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+
+<header class="bg-dark px-4">
+  <nav class="flex justify-between items-center">
+    <a href="{% url 'home' %}" class="text-xl text-light font-semibold font-mono">
+      Home
+    </a>
+    <div class="hidden m-1 md:flex">
+      <form action="{% url 'search' %}" method="get" class="m-2">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-search"
+              viewBox="0 0 16 16">
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </div>
+          <input type="text" name="query" id="query" class="block w-full p-4 pl-10 text-sm rounded-lg" placeholder="Search here...">
+        </div>
+      </form>
+
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="px-5 py-3 m-2 block font-mono font-semibold text-black rounded-lg bg-light">Logout</a>
+        <a href="{% url 'create_room' %}" class="px-5 py-3 m-2 block font-mono font-semibold text-black rounded-lg bg-pink">Create</a>
+      {% else %}
+      <a href="{% url 'register' %}" class="px-5 py-3 m-2 block font-mono font-semibold text-black rounded-lg bg-light">Register</a>
+      <a href="{% url 'login' %}" class="px-5 py-3 m-2 block font-mono font-semibold text-black rounded-lg bg-pink">Login</a>
+      {% endif %}
+      
+    </div>
+    <div class="flex items-center">
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'my_profile' %}" class="mr-5">
+        <img src="{{ user.photo.url }}" alt="Foto de {{ user.username }}" class="w-11 h-11 rounded-full">
+      </a>
+      {% endif %}
+      <button data-mobile-menu class="text-light px-2 m-5 ml-5 py-1 md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <nav class="hidden" id="mobile-menu">
+    <div class="flex flex-col py-3">
+      <form action="{% url 'search' %}" method="get" class="m-2">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-search"
+              viewBox="0 0 16 16">
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </div>
+          <input type="text" name="query" id="query" class="block w-full p-4 pl-10 text-sm rounded-lg" placeholder="Search here...">
+        </div>
+      </form>
+      <a href="{% url 'register' %}" class="px-5 py-3 m-2 block font-mono font-semibold text-black rounded-lg bg-light">Register</a>
+      <a href="{% url 'login' %}" class="px-5 py-3 m-2 block font-mono font-semibold text-black rounded-lg bg-pink">Login</a>
+      <a href="{% url 'logout' %}" class="px-5 py-3 m-2 block font-mono font-semibold text-black rounded-lg bg-light">Logout</a>
+      <a href="{% url 'create_room' %}" class="px-5 py-3 m-2 block font-mono font-semibold text-black rounded-lg bg-pink">Create</a>
+    </div>
+  </nav>
+</header>
